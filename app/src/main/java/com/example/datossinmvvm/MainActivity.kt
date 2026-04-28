@@ -9,8 +9,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.datossinmvvm.ui.theme.DatosSinMVVMTheme
+import com.example.datossinmvvm.ScreenUser
+import com.example.datossinmvvm.ui.ScreenProduct
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() { // DEBE ser ComponentActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -20,7 +22,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ScreenUser()
+                    // ScreenUser() para el Ejercicio 1
+                    // ScreenProduct() para el Ejercicio 2
+                    ScreenProduct()
                 }
             }
         }
