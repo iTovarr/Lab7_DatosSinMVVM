@@ -3,8 +3,8 @@ package com.example.datossinmvvm
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
-@Database(entities = [User::class, Product::class], version = 2) // Sube la versión a 2
+@Database(entities = [User::class, Task::class], version = 3)
 abstract class UserDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
-    abstract fun productDao(): ProductDao // Añade el DAO de productos
+    abstract fun taskDao(): TaskDao
 }

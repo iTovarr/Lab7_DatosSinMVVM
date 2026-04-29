@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() { // DEBE ser ComponentActivity
                 ) {
                     // ScreenUser() para el Ejercicio 1
                     // ScreenProduct() para el Ejercicio 2
-                    ScreenProduct()
+                    ScreenTask()
                 }
             }
         }
