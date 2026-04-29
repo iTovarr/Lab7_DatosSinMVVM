@@ -35,6 +35,7 @@ fun ScreenTask() {
     var minutes by remember { mutableIntStateOf(10) }
     var taskList by remember { mutableStateOf(listOf<Task>()) }
 
+    // Color crema del fondo según tu diseño
     val bgCream = Color(0xFFF5F0E6)
 
     Scaffold(
@@ -52,20 +53,23 @@ fun ScreenTask() {
                 onValueChange = { taskTitle = it },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
-                colors = TextFieldDefaults.outlinedTextFieldColors(containerColor = Color.White)
+                colors = OutlinedTextFieldDefaults.colors(focusedContainerColor = Color.White, unfocusedContainerColor = Color.White)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
+            Text("Duración estimada", modifier = Modifier.align(Alignment.CenterHorizontally), fontWeight = FontWeight.Bold)
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 IconButton(onClick = { if (minutes > 1) minutes-- }) {
                     Icon(Icons.Default.KeyboardArrowLeft, null, modifier = Modifier.size(40.dp))
                 }
-                Text("$minutes min", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Text("$minutes\nmin", fontSize = 28.sp, fontWeight = FontWeight.Bold, lineHeight = 30.sp)
                 IconButton(onClick = { minutes++ }) {
                     Icon(Icons.Default.KeyboardArrowRight, null, modifier = Modifier.size(40.dp))
                 }
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             Button(
                 onClick = {
@@ -76,40 +80,36 @@ fun ScreenTask() {
                         taskList = dao.getAllTasks()
                     }
                 },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+                modifier = Modifier.fillMaxWidth().height(55.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF5B8A8A)),
                 shape = RoundedCornerShape(12.dp)
-            ) { Text("GUARDAR TAREA") }
+            ) { Text("GUARDAR TAREA", fontSize = 16.sp, fontWeight = FontWeight.Bold) }
 
-            Button(
-                onClick = { coroutineScope.launch { taskList = dao.getAllTasks() } },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.outlinedButtonColors()
-            ) { Text("LISTAR TAREAS") }
+            Spacer(modifier = Modifier.height(20.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 items(taskList) { item ->
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(15.dp),
                         colors = CardDefaults.cardColors(containerColor = Color.White)
                     ) {
-                        ListItem(
-                            headlineContent = { Text(item.title, fontWeight = FontWeight.Bold) },
-                            supportingContent = { Text(item.duration) },
-                            trailingContent = {
-                                IconButton(onClick = {
-                                    coroutineScope.launch {
-                                        dao.deleteTask(item)
-                                        taskList = dao.getAllTasks()
-                                    }
-                                }) {
-                                    Icon(Icons.Default.Delete, null, tint = Color.LightGray)
-                                }
+                        Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.CheckCircle, null, tint = Color(0xFF81C784), modifier = Modifier.size(30.dp))
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(item.title, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                                Text("${item.duration}", fontSize = 12.sp, color = Color.Gray)
                             }
-                        )
+                            IconButton(onClick = {
+                                coroutineScope.launch {
+                                    dao.deleteTask(item)
+                                    taskList = dao.getAllTasks()
+                                }
+                            }) {
+                                Icon(Icons.Default.Delete, null, tint = Color.LightGray)
+                            }
+                        }
                     }
                 }
             }
