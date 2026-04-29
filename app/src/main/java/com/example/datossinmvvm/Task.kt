@@ -8,5 +8,6 @@ data class Task(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
     val duration: String,
-    val type: String
+    val type: String,
+    val imageResName: String = "ic_launcher_foreground"
 )
